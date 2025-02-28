@@ -8,7 +8,7 @@ MAIN_FILE=cmd/api/main.go
 
 # Database related variables
 DB_USER=postgres
-DB_PASSWORD=Golu@423
+DB_PASSWORD=youpass
 DB_NAME=dining_app
 DB_HOST=localhost
 DB_PORT=5432
