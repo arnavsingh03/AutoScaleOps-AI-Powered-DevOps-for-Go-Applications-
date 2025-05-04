@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./dining-app-backend
+      dockerfile: Dockerfile
+    image: arnavsingh03/dining-backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend/dineout
+      dockerfile: Dockerfile
+    image: arnavsingh03/dining-frontend
+    ports:
+      - "3000:80"

@@ -53,10 +53,6 @@ const LoginForm = () => {
                     type="password"
                     {...register('password', {
                         required: 'Password is required',
-                        minLength: {
-                            value: 6,
-                            message: 'Password must be at least 6 characters',
-                        },
                     })}
                     className="input-field"
                 />

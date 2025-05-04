@@ -5,7 +5,7 @@ import (
     "time"
     "github.com/jmoiron/sqlx"
     _ "github.com/lib/pq"
-    "github.com/arnavsingh03/dining-app/internal/config"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/config"
 )
 
 // PostgresDB wraps sqlx.DB to provide custom functionality

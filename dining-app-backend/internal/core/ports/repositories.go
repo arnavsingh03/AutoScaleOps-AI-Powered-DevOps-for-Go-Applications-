@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/arnavsingh03/dining-app/internal/core/domain"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/core/domain"
 )
 
 type UserRepository interface {

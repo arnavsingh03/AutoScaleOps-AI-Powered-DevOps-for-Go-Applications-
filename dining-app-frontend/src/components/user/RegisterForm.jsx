@@ -9,7 +9,6 @@ const RegisterForm = () => {
         register,
         handleSubmit,
         formState: { errors },
-        watch,
     } = useForm();
     const dispatch = useDispatch();
     const navigate = useNavigate();

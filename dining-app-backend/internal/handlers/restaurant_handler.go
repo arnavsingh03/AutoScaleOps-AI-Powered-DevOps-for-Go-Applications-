@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/arnavsingh03/dining-app/internal/core/domain"
-	"github.com/arnavsingh03/dining-app/internal/core/ports"
-	"github.com/arnavsingh03/dining-app/internal/handlers/dto"
-	"github.com/arnavsingh03/dining-app/pkg/apperrors"
-	"github.com/arnavsingh03/dining-app/pkg/utils"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/core/domain"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/core/ports"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/handlers/dto"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/apperrors"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 

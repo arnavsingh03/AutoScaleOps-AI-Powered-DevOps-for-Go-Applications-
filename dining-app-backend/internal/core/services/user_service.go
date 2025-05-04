@@ -2,11 +2,11 @@ package services
 
 import (
     "context"
-    "github.com/arnavsingh03/dining-app/internal/core/domain"
-    "github.com/arnavsingh03/dining-app/internal/core/ports"
-    "github.com/arnavsingh03/dining-app/pkg/apperrors"
-    "github.com/arnavsingh03/dining-app/pkg/auth"
-    "github.com/arnavsingh03/dining-app/internal/infrastructure/logger"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/core/domain"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/core/ports"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/apperrors"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/auth"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/infrastructure/logger"
     "go.uber.org/zap"
     "golang.org/x/crypto/bcrypt"
 )

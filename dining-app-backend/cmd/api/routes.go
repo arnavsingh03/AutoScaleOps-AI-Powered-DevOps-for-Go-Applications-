@@ -2,9 +2,9 @@ package main
 
 import (
     "github.com/gin-gonic/gin"
-    "github.com/arnavsingh03/dining-app/internal/handlers"
-    "github.com/arnavsingh03/dining-app/internal/middleware"
-    "github.com/arnavsingh03/dining-app/pkg/auth"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/handlers"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/middleware"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/auth"
 )
 
 func setupRoutes(

@@ -4,8 +4,8 @@ import (
     "context"
     "database/sql"
     "github.com/jmoiron/sqlx"
-    "github.com/arnavsingh03/dining-app/internal/core/domain"
-    "github.com/arnavsingh03/dining-app/pkg/apperrors"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/core/domain"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/apperrors"
 )
 
 type tableRepository struct {
