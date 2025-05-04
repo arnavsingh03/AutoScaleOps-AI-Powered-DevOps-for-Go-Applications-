@@ -1,4 +1,4 @@
-module github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-
+module github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend
 
 go 1.23.2
 

@@ -4,8 +4,8 @@ import (
     "net/http"
     "strings"
     "github.com/gin-gonic/gin"
-    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/auth"
-    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/pkg/apperrors"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/pkg/auth"
+    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/pkg/apperrors"
 )
 
 func AuthMiddleware(authService *auth.Service) gin.HandlerFunc {

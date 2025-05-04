@@ -1,9 +1,10 @@
 package auth
 
 import (
-    "time"
-    "github.com/golang-jwt/jwt/v4"
-    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/internal/config"
+	"time"
+
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/core/config"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type Service struct {
