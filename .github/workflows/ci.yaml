@@ -19,34 +19,31 @@ jobs:
 
       - name: Debug directory structure
         run: |
+          echo "Current directory:"
           pwd
+          echo "\nRoot directory contents:"
           ls -la
-          ls -la dining-frontend/
-          ls -la dining-app-backend/
+          echo "\nFrontend directory contents:"
+          ls -la dining-frontend/ || echo "Frontend directory not found"
+          echo "\nBackend directory contents:"
+          ls -la dining-app-backend/ || echo "Backend directory not found"
+          echo "\nLooking for package-lock.json files:"
+          find . -name "package-lock.json"
 
-      - name: Set up Node.js for Frontend
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: dining-frontend/package-lock.json
 
       - name: Install frontend dependencies
         run: |
           cd dining-frontend
-          npm install
-
-      - name: Set up Node.js for Backend
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: dining-app-backend/package-lock.json
+          npm ci
 
       - name: Install backend dependencies
         run: |
           cd dining-app-backend
-          npm install
+          npm ci
 
       - name: Run frontend tests
         run: |
