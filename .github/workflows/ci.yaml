@@ -8,7 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: arnavsingh03/autoscaleops
+  FRONTEND_IMAGE: arnavsingh03/dining-frontend
+  BACKEND_IMAGE: arnavsingh03/dining-backend
 
 jobs:
   build-and-test:
@@ -76,14 +77,14 @@ jobs:
         with:
           context: ./dining-frontend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ github.sha }}
+          tags: ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v4
         with:
           context: ./dining-app-backend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:${{ github.sha }}
+          tags: ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
 
   deploy:
     needs: build-and-push
