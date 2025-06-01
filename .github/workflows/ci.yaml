@@ -28,7 +28,7 @@ jobs:
           echo "\nBackend directory contents:"
           ls -la dining-app-backend/ || echo "Backend directory not found"
 
-      - name: Set up Node.js
+      - name: Set up Node.js for Frontend
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -39,21 +39,25 @@ jobs:
           npm install --package-lock-only
           npm install
 
-      - name: Install backend dependencies
-        run: |
-          cd dining-app-backend
-          npm install --package-lock-only
-          npm install
-
       - name: Run frontend tests
         run: |
           cd dining-frontend
           npm test
 
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Install Go dependencies
+        run: |
+          cd dining-app-backend
+          go mod download
+
       - name: Run backend tests
         run: |
           cd dining-app-backend
-          npm test
+          go test ./...
 
   build-and-push:
     needs: build-and-test
