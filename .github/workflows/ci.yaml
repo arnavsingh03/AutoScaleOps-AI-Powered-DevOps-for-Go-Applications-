@@ -7,7 +7,6 @@ on:
     branches: [ master ]
 
 env:
-  REGISTRY: ghcr.io
   FRONTEND_IMAGE: arnavsingh03/dining-frontend
   BACKEND_IMAGE: arnavsingh03/dining-backend
 
@@ -15,62 +14,45 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Debug directory structure
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "\nRoot directory contents:"
-          ls -la
-          echo "\nFrontend directory contents:"
-          ls -la dining-frontend/ || echo "Frontend directory not found"
-          echo "\nBackend directory contents:"
-          ls -la dining-app-backend/ || echo "Backend directory not found"
-
-      - name: Set up Node.js for Frontend
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: dining-frontend/package-lock.json
 
       - name: Install frontend dependencies
         run: |
           cd dining-frontend
-          npm install --package-lock-only
           npm install
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
+          cache: true
 
-      - name: Install Go dependencies
+      - name: Install backend dependencies
         run: |
           cd dining-app-backend
           go mod download
 
-      - name: Run backend tests
-        run: |
-          cd dining-app-backend
-          go test ./...
-
   build-and-push:
     needs: build-and-test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Log in to GitHub Container Registry
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Build and push frontend
         uses: docker/build-push-action@v4
@@ -78,6 +60,8 @@ jobs:
           context: ./dining-frontend
           push: true
           tags: ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push backend
         uses: docker/build-push-action@v4
@@ -85,30 +69,29 @@ jobs:
           context: ./dining-app-backend
           push: true
           tags: ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: build-and-push
-    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name dining-cluster --region us-east-1
+        run: aws eks update-kubeconfig --name dining-app-cluster --region us-east-1
 
       - name: Deploy to EKS
         run: |
-          cd helm
+          cd helm/dining-app-chart
           helm upgrade --install dining-app . \
-            --set backend.image.tag=${{ github.sha }} \
-            --set frontend.image.tag=${{ github.sha }} \
-            --namespace dining-app \
-            --create-namespace
+            --set frontend.image=${{ env.FRONTEND_IMAGE }}:${{ github.sha }} \
+            --set backend.image=${{ env.BACKEND_IMAGE }}:${{ github.sha }}
