@@ -1,6 +1,6 @@
 module github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend
 
-go 1.23.2
+go 1.21
 
 require (
 	github.com/gin-gonic/gin v1.10.0
