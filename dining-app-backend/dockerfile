@@ -24,8 +24,8 @@ WORKDIR /configs
 # Copy the Go binary from the builder stage
 COPY --from=builder /app/cmd/api/main /main
 
-# Copy the config file from the builder stage
-COPY --from=builder /app/configs/config.yaml /configs/config.yaml
+# Copy the config file directly from the source
+COPY configs/config.yaml /configs/config.yaml
 
 # Expose the port the app will run on
 EXPOSE 8080
