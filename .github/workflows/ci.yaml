@@ -17,12 +17,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Debug directory structure
+        run: |
+          pwd
+          ls -la
+          ls -la dining-frontend/
+          ls -la dining-backend/
+
       - name: Set up Node.js for Frontend
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: dining-frontend/package-lock.json
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install frontend dependencies
         run: |
@@ -34,7 +41,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: dining-backend/package-lock.json
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install backend dependencies
         run: |
