@@ -22,14 +22,14 @@ jobs:
           pwd
           ls -la
           ls -la dining-frontend/
-          ls -la dining-backend/
+          ls -la dining-app-backend/
 
       - name: Set up Node.js for Frontend
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: dining-frontend/package-lock.json
 
       - name: Install frontend dependencies
         run: |
@@ -41,11 +41,11 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: dining-app-backend/package-lock.json
 
       - name: Install backend dependencies
         run: |
-          cd dining-backend
+          cd dining-app-backend
           npm install
 
       - name: Run frontend tests
@@ -55,7 +55,7 @@ jobs:
 
       - name: Run backend tests
         run: |
-          cd dining-backend
+          cd dining-app-backend
           npm test
 
   build-and-push:
@@ -85,7 +85,7 @@ jobs:
       - name: Build and push backend
         uses: docker/build-push-action@v4
         with:
-          context: ./dining-backend
+          context: ./dining-app-backend
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend:${{ github.sha }}
 
