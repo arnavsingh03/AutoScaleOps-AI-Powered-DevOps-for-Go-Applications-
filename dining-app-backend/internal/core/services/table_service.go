@@ -4,10 +4,10 @@ import (
 	"context"
 
 	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/core/domain"
-    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/core/ports"
-    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/pkg/apperrors"
-    "github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/infrastructure/logger"
-    "go.uber.org/zap"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/core/ports"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/infrastructure/logger"
+	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/pkg/apperrors"
+	"go.uber.org/zap"
 )
 
 type tableService struct {
@@ -31,7 +31,7 @@ func NewTableService(
 func (s *tableService) CreateTable(ctx context.Context, restaurantID int64, table *domain.Table) error {
 	s.logger.Info("Creating new table",
 		zap.Int64("restaurantID", restaurantID),
-		zap.Int("tableNumber", table.TableNumber),
+		zap.String("tableNumber", table.TableNumber),
 		zap.Int("capacity", table.Capacity),
 	)
 

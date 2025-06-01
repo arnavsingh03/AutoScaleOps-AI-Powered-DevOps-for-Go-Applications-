@@ -1,0 +1,39 @@
+# Service for Backend
+apiVersion: v1
+kind: Service
+metadata:
+  name: dining-backend
+  labels:
+    app: dining-backend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  ports:
+  - port: {{ .Values.backend.service.port }}
+    targetPort: {{ .Values.backend.service.targetPort }}
+    protocol: TCP
+  selector:
+    app: dining-backend
+  type: {{ .Values.backend.service.type }}
+
+---
+
+# Service for Frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: dining-frontend
+  labels:
+    app: dining-frontend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  ports:
+  - port: {{ .Values.frontend.service.port }}
+    targetPort: {{ .Values.frontend.service.targetPort }}
+    protocol: TCP
+  selector:
+    app: dining-frontend
+  type: {{ .Values.frontend.service.type }}

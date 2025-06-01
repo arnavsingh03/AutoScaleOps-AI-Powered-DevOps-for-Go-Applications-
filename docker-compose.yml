@@ -1,18 +1,43 @@
-version: '3'
-
 services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Golu@423
+      POSTGRES_DB: dining_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./dining-app-backend/configs/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./dining-app-backend
       dockerfile: Dockerfile
-    image: arnavsingh03/dining-backend
+    image: arnavsingh03/dining-backend:latest
+    volumes:
+      - ./dining-app-backend/configs:/configs
     ports:
       - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
 
   frontend:
     build:
-      context: ./frontend/dineout
+      context: ./dining-frontend
       dockerfile: Dockerfile
-    image: arnavsingh03/dining-frontend
+    image: arnavsingh03/dining-frontend:latest
     ports:
       - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

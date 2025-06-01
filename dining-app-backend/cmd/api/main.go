@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+
 	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/core/config"
 	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/core/services"
 	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/internal/handlers"
@@ -55,7 +56,7 @@ func main() {
 	bookingService := services.NewBookingService(bookingRepo, tableRepo, restaurantRepo, logger)
 
 	// Initialize handlers
-	userHandler := handlers.NewUserHandler(userService, validator)
+	userHandler := handlers.NewUserHandler(userService, validator, logger.Logger)
 	restaurantHandler := handlers.NewRestaurantHandler(restaurantService, validator)
 	tableHandler := handlers.NewTableHandler(tableService, validator)
 	bookingHandler := handlers.NewBookingHandler(bookingService, validator)
@@ -64,7 +65,7 @@ func main() {
 	router := gin.Default()
 
 	// Apply global middleware
-	router.Use(middleware.CORS())
+	router.Use(middleware.CORS("*")) // Allow all origins in development
 
 	// Initialize routes
 	setupRoutes(

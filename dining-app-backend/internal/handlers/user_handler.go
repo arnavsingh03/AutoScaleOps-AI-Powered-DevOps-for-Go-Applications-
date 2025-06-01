@@ -9,17 +9,20 @@ import (
 	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/pkg/apperrors"
 	"github.com/arnavsingh03/AutoScaleOps-AI-Powered-DevOps-for-Go-Applications-/dining-app-backend/pkg/utils"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type UserHandler struct {
 	userService ports.UserService
 	validator   *utils.CustomValidator
+	logger      *zap.Logger
 }
 
-func NewUserHandler(userService ports.UserService, validator *utils.CustomValidator) *UserHandler {
+func NewUserHandler(userService ports.UserService, validator *utils.CustomValidator, logger *zap.Logger) *UserHandler {
 	return &UserHandler{
 		userService: userService,
 		validator:   validator,
+		logger:      logger,
 	}
 }
 
@@ -32,12 +35,18 @@ func (h *UserHandler) Register(c *gin.Context) {
 		return
 	}
 
+	// Log the incoming request payload
+	h.logger.Info("Received registration request", zap.Any("request", req))
+
 	user := &domain.User{
 		Name:     req.Name,
 		Email:    req.Email,
 		Password: req.Password,
-		Role:     domain.RoleUser, // Set default role
+		Role:     req.Role, // Use the role from request
 	}
+
+	// Log the extracted role
+	h.logger.Info("Extracted role from request", zap.String("role", user.Role))
 
 	if err := h.validator.Validate(user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

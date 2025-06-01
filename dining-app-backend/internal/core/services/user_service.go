@@ -27,7 +27,7 @@ func NewUserService(userRepo ports.UserRepository, authService *auth.Service, lo
 }
 
 func (s *userService) Register(ctx context.Context, user *domain.User) error {
-	s.logger.Info("Registering new user", zap.String("email", user.Email))
+	s.logger.Info("Registering new user", zap.String("email", user.Email), zap.String("role", user.Role))
 
 	// Check if user already exists
 	existingUser, err := s.userRepo.GetByEmail(ctx, user.Email)
@@ -53,10 +53,12 @@ func (s *userService) Register(ctx context.Context, user *domain.User) error {
 
 	user.Password = string(hashedPassword)
 
-	// Ensure role is set
+	// Set default role only if not provided
 	if user.Role == "" {
 		user.Role = domain.RoleUser
 	}
+
+	s.logger.Info("Saving user with role", zap.String("role", user.Role))
 
 	if err := s.userRepo.Create(ctx, user); err != nil {
 		s.logger.Error("Failed to create user", zap.Error(err))

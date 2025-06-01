@@ -1,0 +1,61 @@
+# Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dining-backend
+  labels:
+    app: dining-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dining-backend
+  template:
+    metadata:
+      labels:
+        app: dining-backend
+    spec:
+      containers:
+      - name: dining-backend
+        image: arnavsingh03/dining-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "db"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_PASSWORD
+          value: "Golu@423"
+        - name: DB_NAME
+          value: "dining_app"
+
+---
+
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dining-frontend
+  labels:
+    app: dining-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dining-frontend
+  template:
+    metadata:
+      labels:
+        app: dining-frontend
+    spec:
+      containers:
+      - name: dining-frontend
+        image: arnavsingh03/dining-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: VITE_API_BASE_URL
+          value: "http://acf76b84edd2c4574a67f85ae8c4a2d7-63376e0dfc08719b.elb.us-east-1.amazonaws.com/api/v1"

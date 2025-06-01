@@ -1,0 +1,63 @@
+# Global settings
+global:
+  environment: production
+
+# Database configuration
+postgres:
+  enabled: true
+  image:
+    repository: postgres
+    tag: "15"
+    pullPolicy: IfNotPresent
+  persistence:
+    enabled: true
+    size: 1Gi
+    accessMode: ReadWriteOnce
+  auth:
+    username: postgres
+    password: Golu@423
+    database: dining_app
+  service:
+    port: 5432
+
+# Backend configuration
+backend:
+  enabled: true
+  image:
+    repository: arnavsingh03/dining-backend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  replicas: 1
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 8080
+  env:
+    DB_HOST: db
+    DB_PORT: "5432"
+    DB_USER: postgres
+    DB_PASSWORD: Golu@423
+    DB_NAME: dining_app
+
+# Frontend configuration
+frontend:
+  enabled: true
+  image:
+    repository: arnavsingh03/dining-frontend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  replicas: 1
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 80
+  env:
+    VITE_API_BASE_URL: "http://acf76b84edd2c4574a67f85ae8c4a2d7-63376e0dfc08719b.elb.us-east-1.amazonaws.com/api/v1"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  host: dining-app.local
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"

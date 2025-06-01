@@ -1,0 +1,63 @@
+# Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dining-backend
+  labels:
+    app: dining-backend
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: dining-backend
+  template:
+    metadata:
+      labels:
+        app: dining-backend
+    spec:
+      containers:
+      - name: dining-backend
+        image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: {{ .Values.backend.env.DB_HOST }}
+        - name: DB_PORT
+          value: {{ .Values.backend.env.DB_PORT }}
+        - name: DB_USER
+          value: {{ .Values.backend.env.DB_USER }}
+        - name: DB_PASSWORD
+          value: {{ .Values.backend.env.DB_PASSWORD }}
+        - name: DB_NAME
+          value: {{ .Values.backend.env.DB_NAME }}
+
+---
+
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dining-frontend
+  labels:
+    app: dining-frontend
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app: dining-frontend
+  template:
+    metadata:
+      labels:
+        app: dining-frontend
+    spec:
+      containers:
+      - name: dining-frontend
+        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+        ports:
+        - containerPort: 80
+        env:
+        - name: VITE_API_BASE_URL
+          value: {{ .Values.frontend.env.VITE_API_BASE_URL }}

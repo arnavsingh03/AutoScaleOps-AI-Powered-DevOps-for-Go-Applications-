@@ -157,6 +157,11 @@ func (h *RestaurantHandler) Delete(c *gin.Context) {
 }
 
 func toRestaurantResponse(restaurant *domain.Restaurant) dto.RestaurantResponse {
+	tables := make([]dto.TableResponse, len(restaurant.Tables))
+	for i, table := range restaurant.Tables {
+		tables[i] = toTableResponse(table)
+	}
+
 	return dto.RestaurantResponse{
 		ID:          restaurant.ID,
 		Name:        restaurant.Name,
@@ -165,5 +170,6 @@ func toRestaurantResponse(restaurant *domain.Restaurant) dto.RestaurantResponse 
 		CuisineType: restaurant.CuisineType,
 		OpeningTime: restaurant.OpeningTime,
 		ClosingTime: restaurant.ClosingTime,
+		Tables:      tables,
 	}
 }
