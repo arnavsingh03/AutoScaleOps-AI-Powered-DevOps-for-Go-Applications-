@@ -20,12 +20,13 @@ postgres:
   enabled: true
   image:
     repository: postgres
-    tag: "cac78f592d26dc3adeb4617fc57586012dbb98de"
+    tag: "14"
     pullPolicy: IfNotPresent
   persistence:
     enabled: true
     size: 1Gi
     accessMode: ReadWriteOnce
+    storageClass: "standard"
   auth:
     username: postgres
     password: Golu@423
@@ -38,7 +39,7 @@ backend:
   enabled: true
   image:
     repository: arnavsingh03/dining-backend
-    tag: "cac78f592d26dc3adeb4617fc57586012dbb98de"
+    tag: "latest"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
@@ -57,7 +58,7 @@ frontend:
   enabled: true
   image:
     repository: arnavsingh03/dining-frontend
-    tag: "cac78f592d26dc3adeb4617fc57586012dbb98de"
+    tag: "latest"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
@@ -65,7 +66,7 @@ frontend:
     port: 80
     targetPort: 80
   env:
-    VITE_API_BASE_URL: "http://acf76b84edd2c4574a67f85ae8c4a2d7-63376e0dfc08719b.elb.us-east-1.amazonaws.com/api/v1"
+    VITE_API_BASE_URL: "http://dining-app.local/api/v1"
 
 # Ingress configuration
 ingress:
