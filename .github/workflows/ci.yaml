@@ -91,8 +91,34 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  deploy:
+  update-values:
     needs: [frontend-build, backend-build]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Update values.yaml with latest commit SHA
+        run: |
+          cd helm/dining-app-chart
+          # Update frontend image tag
+          sed -i "s/tag: \"latest\"/tag: \"${{ github.sha }}\"/" values.yaml
+          # Update backend image tag
+          sed -i "s/tag: \"latest\"/tag: \"${{ github.sha }}\"/" values.yaml
+
+      - name: Commit and push changes
+        run: |
+          git add helm/dining-app-chart/values.yaml
+          git commit -m "Update image tags to ${{ github.sha }} [skip ci]"
+          git push
+
+  deploy:
+    needs: [update-values]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
@@ -111,6 +137,4 @@ jobs:
       - name: Deploy to EKS
         run: |
           cd helm/dining-app-chart
-          helm upgrade --install dining-app . \
-            --set frontend.image=${{ env.FRONTEND_IMAGE }}:${{ github.sha }} \
-            --set backend.image=${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+          helm upgrade --install dining-app .
