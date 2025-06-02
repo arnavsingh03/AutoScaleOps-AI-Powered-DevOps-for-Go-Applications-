@@ -20,7 +20,7 @@ postgres:
   enabled: true
   image:
     repository: postgres
-    tag: "f2149cad2d5c207ff07e9d39731ecd77eaf255e3"
+    tag: "18be98b67820b11b5cdd4b46788bbe1ede3c6e04"
     pullPolicy: IfNotPresent
   persistence:
     enabled: true
@@ -38,7 +38,7 @@ backend:
   enabled: true
   image:
     repository: arnavsingh03/dining-backend
-    tag: "f2149cad2d5c207ff07e9d39731ecd77eaf255e3"
+    tag: "18be98b67820b11b5cdd4b46788bbe1ede3c6e04"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
@@ -57,7 +57,7 @@ frontend:
   enabled: true
   image:
     repository: arnavsingh03/dining-frontend
-    tag: "f2149cad2d5c207ff07e9d39731ecd77eaf255e3"
+    tag: "18be98b67820b11b5cdd4b46788bbe1ede3c6e04"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
