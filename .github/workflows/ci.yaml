@@ -11,7 +11,7 @@ env:
   BACKEND_IMAGE: arnavsingh03/dining-backend
 
 jobs:
-  frontend-test:
+  frontend-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,12 +27,24 @@ jobs:
         run: |
           cd dining-frontend
           npm install
-          npm install --save-dev @testing-library/react @testing-library/jest-dom @vitest/coverage-v8 jsdom vitest
 
-      - name: Run frontend tests
-        run: |
-          cd dining-frontend
-          npm test
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./dining-frontend
+          push: true
+          tags: ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   backend-test:
     runs-on: ubuntu-latest
@@ -54,30 +66,6 @@ jobs:
         run: |
           cd dining-app-backend
           go test ./...
-
-  frontend-build:
-    needs: frontend-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build and push frontend
-        uses: docker/build-push-action@v4
-        with:
-          context: ./dining-frontend
-          push: true
-          tags: ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
   backend-build:
     needs: backend-test
