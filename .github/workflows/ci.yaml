@@ -27,6 +27,7 @@ jobs:
         run: |
           cd dining-frontend
           npm install
+          npm install --save-dev @testing-library/react @testing-library/jest-dom @vitest/coverage-v8 jsdom vitest
 
       - name: Run frontend tests
         run: |
