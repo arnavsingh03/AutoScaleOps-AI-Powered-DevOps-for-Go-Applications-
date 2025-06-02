@@ -1,0 +1,17 @@
+server:
+  port: "8080"
+  environment: "development"
+  readTimeout: 10
+  writeTimeout: 10
+
+database:
+  Host: "db"
+  port: 5432
+  User: "postgres"
+  Password: "your_password_here"
+  DBName: "dining_app"
+  SSLMode: "disable"
+
+jwt:
+  secret: "your_jwt_secret_here"
+  tokenExpiry: 24 
