@@ -38,7 +38,7 @@ backend:
   enabled: true
   image:
     repository: arnavsingh03/dining-backend
-    tag: "latest"
+    tag: "9686f705a60683b02c118526ca4364d0dc7b1296"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
@@ -57,7 +57,7 @@ frontend:
   enabled: true
   image:
     repository: arnavsingh03/dining-frontend
-    tag: "latest"
+    tag: "9686f705a60683b02c118526ca4364d0dc7b1296"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
