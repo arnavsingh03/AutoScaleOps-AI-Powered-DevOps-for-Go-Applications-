@@ -108,10 +108,12 @@ metadata:
   name: postgres-pvc
 spec:
   accessModes:
-    - {{ .Values.postgres.persistence.accessMode }}
+    - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.postgres.persistence.size }}
+      storage: 1Gi
+  storageClassName: manual
+  volumeName: postgres-pv
 ---
 apiVersion: v1
 kind: Service
