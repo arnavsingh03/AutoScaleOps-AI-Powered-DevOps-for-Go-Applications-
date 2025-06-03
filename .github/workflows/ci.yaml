@@ -132,7 +132,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name dining-app-cluster-new --region us-east-1
+        run: aws eks update-kubeconfig --name dining-app-cluster --region us-east-1
 
       - name: Deploy to EKS
         run: |
