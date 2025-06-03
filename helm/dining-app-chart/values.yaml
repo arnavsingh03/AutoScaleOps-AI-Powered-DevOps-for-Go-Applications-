@@ -20,7 +20,7 @@ postgres:
   enabled: true
   image:
     repository: postgres
-    tag: "38a417549685d2ae9d38a5b585c5b3988420f31b"
+    tag: "38a417549685d2ae9d38a5b585c5b3988420f31"
     pullPolicy: IfNotPresent
   persistence:
     enabled: true
