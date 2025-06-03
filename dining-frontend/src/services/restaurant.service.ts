@@ -1,5 +1,5 @@
 import api from './api';
-import { Review } from '../types/restaurant';
+import { restaurants } from '../data/restaurants';
 
 export interface CreateRestaurantData {
   name: string;
@@ -8,20 +8,6 @@ export interface CreateRestaurantData {
   cuisine_type: string;
   opening_time: string;
   closing_time: string;
-}
-
-export interface Restaurant {
-  id: number;
-  name: string;
-  cuisine: string;
-  description: string;
-  address: string;
-  phone: string;
-  openingHours: string;
-  imageUrl: string;
-  photos: string[];
-  rating: number;
-  reviews: Review[];
 }
 
 export const restaurantService = {
@@ -33,13 +19,20 @@ export const restaurantService = {
   async getRestaurantById(id: string) {
     const response = await api.get(`/restaurants/${id}`);
     const r = response.data;
-  
+    
+    // Find matching local data for additional info
+    const localData = restaurants.find(local => local.id === id);
+    
     return {
       ...r,
       cuisine: r.cuisine_type,
       openingHours: `${r.opening_time} - ${r.closing_time}`,
-      photos: r.photos || [],       // Fallback if not present
-      reviews: r.reviews || [],
+      // Use local data for these fields if available
+      phone: localData?.phone || r.phone || 'Not available',
+      rating: localData?.rating || r.rating || 0,
+      imageUrl: localData?.imageUrl || r.imageUrl || '',
+      photos: localData?.photos || r.photos || [],
+      reviews: localData?.reviews || r.reviews || [],
       tables: (r.tables || []).map((table: any) => ({
         id: table.id.toString(),
         number: table.table_number,

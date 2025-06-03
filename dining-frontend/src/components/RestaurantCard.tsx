@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, MapPin, DollarSign } from 'lucide-react';
+import { Star, MapPin } from 'lucide-react';
 import { Restaurant } from '../types/restaurant';
 import { Link } from 'react-router-dom';
 
@@ -39,7 +39,9 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) =>
             </div>
             <div className="flex items-center">
               <span className="text-orange-500 font-medium">
-                {'$'.repeat(restaurant.priceRange.length)}
+                {restaurant.priceRange === '$$' ? '$20-40' :
+                 restaurant.priceRange === '$$$' ? '$40-60' :
+                 restaurant.priceRange === '$$$$' ? '$60+' : '$20-40'}
               </span>
             </div>
           </div>

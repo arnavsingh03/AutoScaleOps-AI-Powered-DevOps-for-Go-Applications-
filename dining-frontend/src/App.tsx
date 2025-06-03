@@ -1,8 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
-import { SearchBar } from './components/SearchBar';
-import { Filters } from './components/Filters';
 import { FeaturedSection } from './components/FeaturedSection';
 import { RestaurantCard } from './components/RestaurantCard';
 import { RestaurantDetails } from './pages/RestaurantDetails';
@@ -13,38 +11,17 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminProtectedRoute } from './components/AdminProtectedRoute';
 import { restaurants } from './data/restaurants';
+import { DiscountBanner } from './components/DiscountBanner';
 
 function HomePage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCuisine, setSelectedCuisine] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
-
   const filteredRestaurants = useMemo(() => {
-    return restaurants.filter(restaurant => {
-      const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          restaurant.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesCuisine = !selectedCuisine || restaurant.cuisine === selectedCuisine;
-      const matchesLocation = !selectedLocation || restaurant.location === selectedLocation;
-
-      return matchesSearch && matchesCuisine && matchesLocation;
-    });
-  }, [searchQuery, selectedCuisine, selectedLocation]);
+    return restaurants;
+  }, []);
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Search and Filters */}
-      <div className="mb-12 space-y-6">
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <Filters
-          selectedCuisine={selectedCuisine}
-          setSelectedCuisine={setSelectedCuisine}
-          selectedLocation={selectedLocation}
-          setSelectedLocation={setSelectedLocation}
-        />
-      </div>
-
+      <DiscountBanner />
+      
       {/* Featured Section */}
       <FeaturedSection restaurants={restaurants} />
 

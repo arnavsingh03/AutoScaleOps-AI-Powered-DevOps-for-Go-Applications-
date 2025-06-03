@@ -13,10 +13,15 @@ export default {
             opacity: '1',
             transform: 'translateY(0)'
           },
+        },
+        slide: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' }
         }
       },
       animation: {
-        'fade-in-up': 'fade-in-up 0.5s ease-out'
+        'fade-in-up': 'fade-in-up 0.5s ease-out',
+        'slide': 'slide 0.5s ease-out'
       }
     },
   },
