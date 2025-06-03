@@ -39,7 +39,7 @@ backend:
   enabled: true
   image:
     repository: arnavsingh03/dining-backend
-    tag: "b4a2f8e067f207563cdffa7bba899b9af7114663"
+    tag: "b4a2f8e067f207563cdffa7bba899b9af71146"
     pullPolicy: IfNotPresent
   replicas: 1
   service:
